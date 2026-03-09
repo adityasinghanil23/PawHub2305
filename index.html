@@ -4,9 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PawHub – Love. Care. Play.</title>
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
   <style>
     * {
       margin: 0;
@@ -14,7 +12,6 @@
       box-sizing: border-box;
       font-family: 'Segoe UI', system-ui, sans-serif;
     }
-
     body {
       background: #f9f5f0;
       color: #2d2d2d;
@@ -39,7 +36,7 @@
       animation: slide 15s linear infinite;
     }
     @keyframes slide {
-      0%   { transform: translateX(0); }
+      0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
 
@@ -58,7 +55,7 @@
       animation: float 18s infinite linear;
     }
     @keyframes float {
-      0%   { transform: translateY(100vh) rotate(0deg); }
+      0% { transform: translateY(100vh) rotate(0deg); }
       100% { transform: translateY(-30vh) rotate(360deg); }
     }
 
@@ -76,7 +73,6 @@
       align-items: center;
       box-shadow: 0 4px 30px rgba(0,0,0,0.06);
     }
-
     .logo {
       font-size: 2.2rem;
       font-weight: 800;
@@ -87,13 +83,11 @@
       transition: transform 0.4s ease;
     }
     .logo:hover { transform: scale(1.08) rotate(4deg); }
-
     nav {
       display: flex;
       align-items: center;
       gap: 2.5rem;
     }
-
     nav a {
       color: #2d2d2d;
       font-weight: 600;
@@ -102,7 +96,6 @@
       position: relative;
       transition: color 0.3s;
     }
-
     nav a::after {
       content: '';
       position: absolute;
@@ -113,10 +106,8 @@
       background: #f47c20;
       transition: width 0.3s ease;
     }
-
     nav a:hover::after { width: 100%; }
     nav a:hover { color: #f47c20; }
-
     .signin-btn {
       background: #f47c20;
       color: white;
@@ -128,13 +119,17 @@
       transition: all 0.3s;
       box-shadow: 0 4px 15px rgba(244,124,32,0.3);
     }
-
     .signin-btn:hover {
       background: #e0661a;
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(244,124,32,0.4);
     }
-
+    #welcomeMsg {
+      font-weight: 600;
+      color: #f47c20;
+      font-size: 1.1rem;
+      margin-right: 20px;
+    }
     #cart-link {
       font-size: 1.8rem;
       color: #2d2d2d;
@@ -142,7 +137,6 @@
       transition: color 0.3s;
     }
     #cart-link:hover { color: #f47c20; }
-
     #cart-count {
       position: absolute;
       top: -8px;
@@ -160,62 +154,110 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
-    /* Hero */
+    /* Modal Styles (for Sign In popup) */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 16px;
+      max-width: 450px;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 2.2rem;
+      cursor: pointer;
+      color: #aaa;
+    }
+    .close:hover { color: #f47c20; }
+    .form-group {
+      margin-bottom: 1.6rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.6rem;
+      font-weight: 600;
+      color: #1e3a5f;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.9rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Hero - your previous style + image */
     .hero {
-      height: 90vh;
-      min-height: 600px;
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)),
-                  url('images/hero.jpg') center/cover no-repeat fixed;
+      height: 520px;
+      background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.45)),
+                  url('images/hero.jpg') center/cover no-repeat;
       display: flex;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: white;
+      padding-left: 80px;
       position: relative;
+      color: white;
     }
-
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.25);
+      z-index: 1;
+    }
     .hero-content {
-      max-width: 900px;
-      padding: 0 20px;
-      animation: fadeInUp 1.4s ease-out;
+      position: relative;
+      z-index: 2;
+      max-width: 650px;
     }
-
-    @keyframes fadeInUp {
-      from { opacity:0; transform:translateY(50px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-
     .hero h1 {
-      font-size: clamp(3.8rem, 9vw, 6rem);
-      margin-bottom: 1.5rem;
+      font-size: 50px;
+      color: #fdf6ec;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+      margin-bottom: 15px;
       line-height: 1.1;
-      text-shadow: 0 6px 25px rgba(0,0,0,0.7);
     }
-
-    .hero h1 span { color: #f47c20; }
-
+    .hero h1 span {
+      color: #f47c20;
+    }
     .hero p {
-      font-size: clamp(1.4rem, 4.5vw, 1.8rem);
-      margin-bottom: 2.8rem;
-      opacity: 0.95;
+      margin: 15px 0 25px;
+      font-size: 20px;
+      color: white;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
     }
-
     .primary-btn {
       background: #f47c20;
       color: white;
-      padding: 1.1rem 3rem;
-      font-size: 1.4rem;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.4s;
-      box-shadow: 0 10px 35px rgba(244,124,32,0.45);
+      padding: 12px 28px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(244,124,32,0.4);
     }
-
     .primary-btn:hover {
       background: #e0661a;
-      transform: translateY(-6px) scale(1.06);
-      box-shadow: 0 20px 50px rgba(244,124,32,0.55);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(244,124,32,0.5);
     }
 
     /* Cards - 2×2 grid */
@@ -228,14 +270,12 @@
       max-width: 1400px;
       margin: 0 auto;
     }
-
     @media (max-width: 900px) {
       .highlight-section {
         grid-template-columns: 1fr;
         padding: 4rem 5%;
       }
     }
-
     .highlight-card {
       border-radius: 24px;
       overflow: hidden;
@@ -245,35 +285,29 @@
       transition: all 0.4s ease;
       border: 1px solid rgba(255,255,255,0.5);
     }
-
     .highlight-card:hover {
       transform: translateY(-16px) scale(1.03);
       box-shadow: 0 30px 70px rgba(0,0,0,0.18);
       border-color: #f47c20;
     }
-
     .card-image img {
       width: 100%;
       height: 280px;
       object-fit: cover;
       transition: transform 0.7s ease;
     }
-
     .highlight-card:hover .card-image img {
       transform: scale(1.1);
     }
-
     .card-content {
       padding: 2rem;
       text-align: center;
     }
-
     .card-title {
       font-size: 1.8rem;
       margin-bottom: 1rem;
       color: #1e3a5f;
     }
-
     .card-btn {
       background: white;
       color: #f47c20;
@@ -284,7 +318,6 @@
       cursor: pointer;
       transition: all 0.3s;
     }
-
     .card-btn:hover {
       background: #f47c20;
       color: white;
@@ -302,7 +335,6 @@
       color: white;
       position: relative;
     }
-
     .story-text {
       background: rgba(255,255,255,0.94);
       padding: 3.5rem;
@@ -311,7 +343,6 @@
       backdrop-filter: blur(10px);
       box-shadow: 0 12px 50px rgba(0,0,0,0.35);
     }
-
     .story-text h4 { color: #f47c20; font-size: 1.5rem; margin-bottom: 1rem; }
     .story-text h2 { font-size: 2.8rem; margin-bottom: 1.5rem; color: #1e3a5f; }
 
@@ -336,7 +367,7 @@
 
   <!-- Sliding welcome text -->
   <div class="marquee">
-    <span>Welcome pet loversssss 🐶🐱🐾💕&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <span>Welcome pet loversssss 🐶🐱🐾💕  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
   </div>
 
   <header class="navbar">
@@ -344,6 +375,15 @@
     <nav>
       <a href="#">Home</a>
       <a href="about.html">About Us</a>
+
+      <!-- Sign In Button -->
+      <button class="signin-btn" id="signinBtn" onclick="openSignInModal()">Sign In</button>
+
+      <!-- Welcome message after sign in -->
+      <span id="welcomeMsg" style="display:none; font-weight:600; color:#f47c20; margin-right:20px;">
+        Hi, <span id="userName"></span>!
+      </span>
+
       <a href="cart.html" id="cart-link">
         <i class="fas fa-shopping-cart"></i>
         <span id="cart-count">0</span>
@@ -351,6 +391,7 @@
     </nav>
   </header>
 
+  <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
       <h1>Welcome to <span>PawHub!</span></h1>
@@ -362,37 +403,34 @@
   <section class="highlight-section">
     <a href="toys-accessories.html" class="highlight-card orange">
       <div class="card-image">
-        <img src="images/deals.jpg" alt="Toys and Accessories">
+        <img src="deals.jpg" alt="Toys and Accessories">
       </div>
       <div class="card-content">
         <h3 class="card-title">Toys & Accessories</h3>
         <button class="card-btn">Explore ></button>
       </div>
     </a>
-
     <a href="food.html" class="highlight-card green">
       <div class="card-image">
-        <img src="images/reviews.jpg" alt="Food Products">
+        <img src="reviews.jpg" alt="Food Products">
       </div>
       <div class="card-content">
         <h3 class="card-title">Food Products</h3>
         <button class="card-btn">Shop Now ></button>
       </div>
     </a>
-
     <a href="grooming.html" class="highlight-card purple">
       <div class="card-image">
-        <img src="images/grooming.jpg" alt="Grooming Services">
+        <img src="grooming.jpg" alt="Grooming Services">
       </div>
       <div class="card-content">
         <h3 class="card-title">Grooming Services</h3>
         <button class="card-btn">Book Now ></button>
       </div>
     </a>
-
     <a href="adopt.html" class="highlight-card blue">
       <div class="card-image">
-        <img src="images/adoption.jpg" alt="Adopt Us">
+        <img src="adoption.jpg" alt="Adopt Us">
       </div>
       <div class="card-content">
         <h3 class="card-title">Adopt Us</h3>
@@ -401,6 +439,33 @@
     </a>
   </section>
 
+  <!-- Sign In Modal -->
+  <div id="signInModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeSignInModal()">×</span>
+      <h2>Sign In / Register</h2>
+
+      <form id="signInForm">
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input type="text" id="name" required placeholder="Your full name">
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" required placeholder="+91-XXXXXXXXXX">
+        </div>
+
+        <div class="form-group">
+          <label for="address">Address *</label>
+          <textarea id="address" rows="3" required placeholder="Your full address (e.g. Flat 101, XYZ Society, Mumbai)"></textarea>
+        </div>
+
+        <button type="submit" class="primary-btn" style="width:100%; margin-top:20px;">Submit</button>
+      </form>
+    </div>
+  </div>
+
   <script>
     function updateCartCount() {
       const cart = JSON.parse(localStorage.getItem('pawhubCart')) || [];
@@ -408,8 +473,45 @@
       document.getElementById('cart-count').textContent = total;
       document.getElementById('cart-count').classList.toggle('visible', total > 0);
     }
-
     window.addEventListener('load', updateCartCount);
+
+    // Sign In Modal Controls
+    function openSignInModal() {
+      document.getElementById('signInModal').style.display = 'flex';
+    }
+
+    function closeSignInModal() {
+      document.getElementById('signInModal').style.display = 'none';
+    }
+
+    // Handle form submission
+    document.getElementById('signInForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+
+      if (name) {
+        // Show welcome message
+        document.getElementById('userName').textContent = name;
+        document.getElementById('welcomeMsg').style.display = 'inline';
+
+        // Hide Sign In button
+        document.getElementById('signinBtn').style.display = 'none';
+
+        // Close modal
+        closeSignInModal();
+
+        // Optional success message
+        alert(`Welcome, ${name}! You are now signed in. 🐾`);
+      }
+    });
+
+    // Close modal on outside click
+    window.onclick = function(event) {
+      const modal = document.getElementById('signInModal');
+      if (event.target === modal) {
+        closeSignInModal();
+      }
+    };
   </script>
 </body>
 </html>
