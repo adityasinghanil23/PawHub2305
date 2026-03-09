@@ -1,0 +1,217 @@
+=<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment – PawHub</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f3eee8;
+      margin: 0;
+      padding: 40px 20px;
+      text-align: center;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #f47c20;
+      margin-bottom: 10px;
+    }
+    #orderSummary {
+      font-size: 1.5rem;
+      margin: 20px 0 30px;
+      color: #1e3a5f;
+      font-weight: bold;
+    }
+    .payment-options {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 30px 0;
+    }
+    .option {
+      padding: 20px 40px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 180px;
+    }
+    .option.active, .option:hover {
+      border-color: #f47c20;
+      background: #fff8f0;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(244,124,32,0.2);
+    }
+    .option i {
+      font-size: 3rem;
+      color: #f47c20;
+      margin-bottom: 10px;
+    }
+    .form-section {
+      display: none;
+      margin-top: 30px;
+      text-align: left;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #1e3a5f;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .pay-btn {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 16px;
+      font-size: 1.3rem;
+      border-radius: 50px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+      transition: all 0.3s;
+    }
+    .pay-btn:hover {
+      background: #218838;
+      transform: translateY(-4px);
+    }
+    .back {
+      margin-top: 40px;
+      font-size: 1.1rem;
+    }
+    .back a {
+      color: #f47c20;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Secure Payment – PawHub</h1>
+    <div id="orderSummary">Loading total...</div>
+
+    <div class="payment-options">
+      <div class="option active" id="upi-option">
+        <i class="fas fa-mobile-alt"></i><br>
+        UPI
+      </div>
+      <div class="option" id="card-option">
+        <i class="fas fa-credit-card"></i><br>
+        Credit / Debit Card
+      </div>
+    </div>
+
+    <!-- UPI Form -->
+    <div class="form-section" id="upi-form">
+      <div class="form-group">
+        <label for="upiId">UPI ID (e.g., name@upi)</label>
+        <input type="text" id="upiId" placeholder="yourname@okaxis" required>
+      </div>
+      <button class="pay-btn" onclick="processPayment('UPI')">Pay Now</button>
+    </div>
+
+    <!-- Card Form -->
+    <div class="form-section" id="card-form">
+      <div class="form-group">
+        <label for="cardNumber">Card Number</label>
+        <input type="text" id="cardNumber" placeholder="4111 1111 1111 1111" maxlength="19" required>
+      </div>
+      <div class="form-group">
+        <label for="expiry">Expiry (MM/YY)</label>
+        <input type="text" id="expiry" placeholder="12/28" maxlength="5" required>
+      </div>
+      <div class="form-group">
+        <label for="cvv">CVV</label>
+        <input type="text" id="cvv" placeholder="123" maxlength="4" required>
+      </div>
+      <button class="pay-btn" onclick="processPayment('Card')">Pay Now</button>
+    </div>
+
+    <p class="back"><a href="cart.html">← Back to Cart</a></p>
+  </div>
+
+  <script>
+    // Get cart total
+    const cart = JSON.parse(localStorage.getItem('pawhubCart')) || [];
+    let amount = 0;
+    cart.forEach(item => {
+      const price = Number(item.price) || 0;
+      const qty = Number(item.quantity) || 1;
+      amount += price * qty;
+    });
+
+    document.getElementById('orderSummary').innerHTML = 
+      `Total Amount: <strong>₹${amount.toFixed(2)}</strong>`;
+
+    // Tab switching
+    const upiOption = document.getElementById('upi-option');
+    const cardOption = document.getElementById('card-option');
+    const upiForm = document.getElementById('upi-form');
+    const cardForm = document.getElementById('card-form');
+
+    upiOption.onclick = () => {
+      upiOption.classList.add('active');
+      cardOption.classList.remove('active');
+      upiForm.style.display = 'block';
+      cardForm.style.display = 'none';
+    };
+
+    cardOption.onclick = () => {
+      cardOption.classList.add('active');
+      upiOption.classList.remove('active');
+      cardForm.style.display = 'block';
+      upiForm.style.display = 'none';
+    };
+
+    // Mock payment processing
+    function processPayment(method) {
+      if (amount <= 0) {
+        alert("Cart is empty! Add items first.");
+        return;
+      }
+
+      // Simulate payment delay
+      const btn = document.querySelector('.pay-btn');
+      btn.disabled = true;
+      btn.textContent = "Processing...";
+
+      setTimeout(() => {
+        // 90% success rate for demo
+        const success = Math.random() > 0.1;
+        if (success) {
+          alert(`Payment Successful via ${method}!\nAmount: ₹${amount.toFixed(2)}\nThank you for shopping at PawHub! 🐾`);
+          localStorage.removeItem('pawhubCart');
+          window.location.href = "single.html";
+        } else {
+          alert(`Payment Failed via ${method}.\nPlease try again or use another method.`);
+        }
+        btn.disabled = false;
+        btn.textContent = "Pay Now";
+      }, 1500);
+    }
+  </script>
+</body>
+</html>

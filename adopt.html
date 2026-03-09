@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Adopt Us – PawHub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f9f5f0;
+      color: #2d2d2d;
+      margin: 0;
+      padding: 0;
+      line-height: 1.7;
+    }
+    .navbar {
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .logo {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #f47c20;
+    }
+    nav a {
+      margin: 0 1.5rem;
+      color: #2d2d2d;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: #f47c20; }
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #f47c20;
+      font-size: 3.2rem;
+      margin-bottom: 0.8rem;
+    }
+    .tagline {
+      text-align: center;
+      font-size: 1.4rem;
+      color: #555;
+      margin-bottom: 3rem;
+    }
+    .stories-grid, .pets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2.2rem;
+      margin: 3rem 0;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+      transition: all 0.35s ease;
+    }
+    .card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+    }
+    .card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 1.8rem;
+    }
+    .card h3 {
+      color: #1e3a5f;
+      margin-bottom: 0.8rem;
+      font-size: 1.5rem;
+    }
+    .status {
+      display: inline-block;
+      background: #4caf50;
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .status:hover {
+      background: #3e8e41;
+    }
+    .shelters {
+      background: #fff8f0;
+      padding: 2.5rem;
+      border-radius: 16px;
+      margin: 4rem 0;
+      border-left: 5px solid #f47c20;
+    }
+    .cta {
+      text-align: center;
+      margin: 4rem 0;
+    }
+    .primary-btn {
+      background: #f47c20;
+      color: white;
+      padding: 1rem 2.5rem;
+      font-size: 1.3rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 8px 30px rgba(244,124,32,0.3);
+    }
+    .primary-btn:hover {
+      background: #e0661a;
+      transform: translateY(-4px);
+      box-shadow: 0 16px 45px rgba(244,124,32,0.45);
+    }
+    /* Modal (floating window) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 16px;
+      max-width: 550px;
+      width: 90%;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+      animation: fadeIn 0.4s ease;
+      position: relative;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 2.2rem;
+      cursor: pointer;
+      color: #aaa;
+    }
+    .close:hover { color: #f47c20; }
+    .form-group {
+      margin-bottom: 1.6rem;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: #1e3a5f;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.9rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #f47c20;
+      outline: none;
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .submit-btn {
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 768px) {
+      h1 { font-size: 2.6rem; }
+      .stories-grid, .pets-grid { gap: 1.8rem; }
+      .modal-content { padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">🐾 PawHub</div>
+  <nav>
+    <a href="single.html">Home</a>
+    
+</header>
+
+<div class="container">
+  <h1>Adopt Us – Change a Life Forever 🐾❤️</h1>
+  <p class="tagline">Every adoption story starts with one kind choice. Meet pets waiting for their forever home.</p>
+
+  <!-- Success Stories – exactly 3 -->
+  <h2 style="text-align:center; color:#1e3a5f; margin:3rem 0 2rem;">Heartwarming Success Stories</h2>
+  <div class="stories-grid">
+    <div class="card">
+      <img src="images/max-adopt.jpg" alt="Max">
+      <div class="card-content">
+        <h3>Max – The Street Fighter Turned Cuddle King</h3>
+        <p>Found injured and scared on a busy Mumbai road, Max spent months recovering at a shelter. Today he’s a goofy, tail-wagging part of a family who says he’s the best decision they ever made.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="images/luna-adopt.jpg" alt="Luna">
+      <div class="card-content">
+        <h3>Luna – The Blind Cat Who Sees Love</h3>
+        <p>Luna was abandoned because of her blindness. A kind volunteer fostered her, and within weeks she learned every corner of her new home by heart — and stole everyone’s heart too.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="images/rocky-adopt.jpg" alt="Rocky">
+      <div class="card-content">
+        <h3>Rocky – From Cage to Couch Potato</h3>
+        <p>Rocky spent 2 years in a shelter kennel. His new dad says watching him discover soft beds and belly rubs for the first time is a memory he’ll never forget.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pets Ready for Adoption – 9 pets with your names -->
+  <h2 style="text-align:center; color:#1e3a5f; margin:5rem 0 2rem;">Meet Pets Looking for a Home</h2>
+  <div class="pets-grid">
+    <div class="card">
+      <img src="images/adopt-dog1.jpg" alt="Johny">
+      <div class="card-content">
+        <h3>Johny – 3 years old, Labrador Mix</h3>
+        <p>Friendly, energetic, loves walks and belly rubs. Vaccinated, neutered, good with kids and other dogs.</p>
+        <div class="status" onclick="openModal('Johny')">Ready to Adopt</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="images/adopt-dog2.jpg" alt="Mia">
+      <div class="card-content">
+        <h3>Mia – 2 years old, Indie Female</h3>
+        <p>Smart, loyal, already house-trained. Loves people, calm at home, great guard instincts.</p>
+        <div class="status" onclick="openModal('Mia')">Ready to Adopt</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="images/adopt-dog3.jpg" alt="El Nino">
+      <div class="card-content">
+        <h3>El Nino – 4 years old, German Shepherd Mix</h3>
+        <p>Protective but gentle, excellent with children. Needs an active family that enjoys walks.</p>
+        <div class="status" onclick="openModal('El Nino')">Ready to Adopt</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="images/adopt-dog4.jpg" alt="Lana">
+      <div class="card-content">
+        <h3>Lana – 1 year old, Beagle Mix</h3>
+        <p>Playful, food-motivated, very cuddly. Loves sniffing adventures and short naps.</p>
+        <div class="status" onclick="openModal('Lana')">Ready to Adopt</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="images/adopt-cat1.jpg" alt="Abella">
+      <div class="card-content">
+        <h3>Abella – 1.5 years old, White Persian</h3>
+        <p>Calm, affectionate, low energy. Perfect lap cat for a quiet home. Vaccinated.</p>
+        <div class="status" onclick="openModal('Abella')">Ready to Adopt</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="images/adopt-cat2.jpg" alt="Ava">
+      <div class="card-content">
+        <h3>Ava – 8 months old, Tabby Kitten</h3>
+        <p>Playful, curious, very cuddly. Loves toys and attention. Looking for a forever family.</p>
+        <div class="status" onclick="openModal('Ava')">Ready to Adopt</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="images/adopt-cat3.jpg" alt="Coma">
+      <div class="card-content">
+        <h3>Coma – 2 years old, Siamese Mix</h3>
+        <p>Talkative, social, loves high places. Needs a home where she can climb and chat.</p>
+        <div class="status" onclick="openModal('Coma')">Ready to Adopt</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="images/adopt-rabbit.jpg" alt="Dani">
+      <div class="card-content">
+        <h3>Dani – 1 year old, Lionhead Rabbit</h3>
+        <p>Fluffy, gentle, litter-trained. Loves hay, veggies, and gentle pets. Great for apartments.</p>
+        <div class="status" onclick="openModal('Dani')">Ready to Adopt</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="images/pom.dog.jpg" alt="Leah">
+      <div class="card-content">
+        <h3>Leah – 10 months old, Pomeranian Dog</h3>
+        <p>Super friendly, chatty, loves fresh treats and attention. Easy to groom, great for families or apartments.</p>
+        <div class="status" onclick="openModal('Leah')">Ready to Adopt</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Adopt + Shelters -->
+  <div class="shelters">
+    <h2>Why Adopt Instead of Buy?</h2>
+    <ul>
+      <li>You save a life and make space for another animal in need</li>
+      <li>Adopted pets are usually vaccinated, dewormed, and spayed/neutered</li>
+      <li>Most shelters match pets to your lifestyle — they know their personalities</li>
+      <li>Adoption fees are much lower than buying from breeders</li>
+      <li>You help reduce street animal population and cruelty</li>
+    </ul>
+
+    <h3 style="margin-top:2.5rem;">Partner Shelters in Mumbai</h3>
+    <ul style="list-style:none; padding:0;">
+      <li><strong>Welfare of Stray Dogs (WSD)</strong> – +91-22-2373 3838 – wsdindia.org</li>
+      <li><strong>In Defense of Animals (IDA) India</strong> – +91-22-2686 3666 – idaindia.org</li>
+      <li><strong>CARE – Animals Rescue & Rehabilitation</strong> – careindia.org.in</li>
+      <li><strong>Blue Cross Animal Clinic & Shelter</strong> – +91-22-2620 2020</li>
+      <li><strong>People For Animals (PFA) Mumbai</strong> – pfamumbai.org</li>
+    </ul>
+  </div>
+
+  <div class="cta">
+    <a href="single.html" class="primary-btn">Back to Home</a>
+  </div>
+</div>
+
+<!-- Floating Adoption Modal with Submit Button -->
+<div id="adoptModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">×</span>
+    <h2>Adoption Application for <span id="petName"></span></h2>
+
+    <form id="adoptForm">
+      <div class="form-group">
+        <label for="fullName">Full Name *</label>
+        <input type="text" id="fullName" required placeholder="Your full name">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" required placeholder="your@email.com">
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number *</label>
+        <input type="tel" id="phone" required placeholder="+91-XXXXXXXXXX">
+      </div>
+
+      <div class="form-group">
+        <label for="homeType">What type of home do you live in? *</label>
+        <select id="homeType" required>
+          <option value="">Select one</option>
+          <option value="apartment">Apartment / Flat</option>
+          <option value="house">Independent house with yard</option>
+          <option value="society">Society / Gated community</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="family">Who lives with you? *</label>
+        <select id="family" required>
+          <option value="">Select one</option>
+          <option value="alone">I live alone</option>
+          <option value="couple">Couple / Partner</option>
+          <option value="family-kids">Family with children</option>
+          <option value="family-no-kids">Family without children</option>
+          <option value="roommates">Roommates</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="experience">Do you have previous pet experience? *</label>
+        <select id="experience" required>
+          <option value="">Select one</option>
+          <option value="yes-owned">Yes – I have owned pets before</option>
+          <option value="yes-fostered">Yes – I have fostered or helped friends</option>
+          <option value="no">No – This would be my first pet</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="time">How much daily time can you give to your pet? *</label>
+        <select id="time" required>
+          <option value="">Select one</option>
+          <option value="high">Several hours (walks, play, care)</option>
+          <option value="medium">1–2 hours (basic care + short play)</option>
+          <option value="low">Less than 1 hour (long working hours)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="why">Why do you want to adopt this pet? *</label>
+        <textarea id="why" rows="4" required placeholder="Tell us why you chose this pet and what kind of home you can offer..."></textarea>
+      </div>
+
+      <div class="cta submit-btn">
+        <button type="submit" class="primary-btn">Submit Application</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+// Open modal with pet name
+function openModal(petName) {
+  document.getElementById('petName').textContent = petName;
+  document.getElementById('adoptModal').style.display = 'flex';
+}
+
+// Close modal
+function closeModal() {
+  document.getElementById('adoptModal').style.display = 'none';
+}
+
+// Form submit – show success message
+document.getElementById('adoptForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const pet = document.getElementById('petName').textContent;
+  alert(`Thank you! Your adoption application for ${pet} has been submitted successfully.\nA shelter volunteer will contact you soon to discuss eligibility. 🐾❤️`);
+  closeModal();
+  document.getElementById('adoptForm').reset(); // clear form
+});
+
+// Close modal on outside click
+window.onclick = function(event) {
+  if (event.target == document.getElementById('adoptModal')) {
+    closeModal();
+  }
+}
+</script>
+
+</body>
+</html>

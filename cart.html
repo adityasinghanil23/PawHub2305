@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart – PawHub</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f3eee8;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #f47c20;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .empty {
+      text-align: center;
+      padding: 80px 0;
+      color: #777;
+      font-size: 18px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      padding: 14px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      background: #f8f8f8;
+      color: #1e3a5f;
+    }
+    .price, .subtotal {
+      color: #f47c20;
+      font-weight: bold;
+    }
+    .total-row {
+      font-size: 20px;
+      font-weight: bold;
+      background: #fff8f0;
+    }
+    .remove-btn {
+      background: #ff4444;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .actions {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .btn {
+      background: #f47c20;
+      color: white;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 0 12px;
+    }
+    .btn.clear {
+      background: #6c757d;
+    }
+    .btn.checkout {
+      background: #28a745;
+      font-size: 18px;
+      padding: 16px 40px;
+    }
+    .btn.checkout:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Your Cart</h1>
+
+    <div id="cart-content"></div>
+
+    <div id="cart-total" class="total-row"></div>
+
+    <div class="actions">
+      <button class="btn" onclick="window.location.href='single.html'">Continue Shopping</button>
+      <button class="btn clear" onclick="clearCart()">Clear Cart</button>
+      <button class="btn checkout" id="checkoutBtn" style="display:none;" onclick="goToPayment()">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <script>
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem('pawhubCart')) || [];
+      const content = document.getElementById('cart-content');
+      const totalDiv = document.getElementById('cart-total');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+
+      content.innerHTML = '';
+
+      if (cart.length === 0) {
+        content.innerHTML = '<p class="empty">Your cart is empty.<br>Add some toys, food or grooming services!</p>';
+        totalDiv.style.display = 'none';
+        checkoutBtn.style.display = 'none';
+        return;
+      }
+
+      let grandTotal = 0;
+
+      let table = `
+        <table>
+          <thead>
+            <tr>
+              <th>Item / Service</th>
+              <th>Unit Price (₹)</th>
+              <th>Quantity</th>
+              <th>Subtotal (₹)</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      cart.forEach((item, index) => {
+        const price = item.price || 0;
+        const qty = item.quantity || 1;
+        const subtotal = price * qty;
+        grandTotal += subtotal;
+
+        table += `
+          <tr>
+            <td>${item.name}</td>
+            <td class="price">${price}</td>
+            <td>${qty}</td>
+            <td class="subtotal">${subtotal}</td>
+            <td><button class="remove-btn" onclick="removeItem(${index})">Remove</button></td>
+          </tr>
+        `;
+      });
+
+      table += `
+          </tbody>
+        </table>
+      `;
+
+      content.innerHTML = table;
+      totalDiv.textContent = `Grand Total: ₹${grandTotal}`;
+      totalDiv.style.display = 'block';
+      checkoutBtn.style.display = 'inline-block'; // Show checkout button
+    }
+
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem('pawhubCart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('pawhubCart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    function clearCart() {
+      if (confirm('Clear entire cart?')) {
+        localStorage.removeItem('pawhubCart');
+        renderCart();
+      }
+    }
+
+    function goToPayment() {
+      window.location.href = 'payment.html';
+    }
+
+    window.onload = renderCart;
+  </script>
+</body>
+</html>

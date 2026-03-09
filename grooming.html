@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grooming Services - PawHub</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f3eee8;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 { color: #f47c20; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .deal-banner {
+      background: #f47c20;
+      color: white;
+      padding: 40px 20px;
+      border-radius: 20px;
+      margin: 30px 0;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+    .deal-banner h2 { margin: 0; font-size: 36px; }
+    .deal-banner p { font-size: 20px; margin: 15px 0; }
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+    .service-card {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+    .service-card:hover { transform: translateY(-10px); }
+    .service-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    .service-card h3 { margin: 10px 0; color: #1e3a5f; font-size: 22px; }
+    .service-card p.desc { font-size: 16px; color: #555; margin: 10px 0; }
+    .service-card p.price { font-size: 18px; font-weight: bold; color: #f47c20; margin: 5px 0; }
+    .service-card button {
+      background: #f47c20;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.2s;
+    }
+    .service-card button:hover { background: #d96b1a; }
+    .back-link {
+      margin-top: 50px;
+      font-size: 18px;
+    }
+    .back-link a {
+      color: #f47c20;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Grooming Services at PawHub</h1>
+   
+    <div class="deal-banner">
+      <h2>UP TO 60% OFF + EXTRA 10% OFF!</h2>
+      <p>Professional Grooming Packages – Bathing, Haircut, Nail Trim, Ear Cleaning & More!</p>
+      <p>Book trusted groomers near you – your pet deserves to look & feel their best!</p>
+    </div>
+    <div class="services">
+      <div class="service-card">
+        <img src="images/smalldogs.jpg" alt="Full Grooming – Small Dogs">
+        <h3>Full Grooming – Small Dogs</h3>
+        <p class="desc">Bath, haircut, nail trim, ear clean, teeth brush – Shih Tzu, Pomeranian, etc.</p>
+        <p class="price">₹1,199 <s>₹2,399</s> (50% OFF)</p>
+        <button onclick="addToCart('Full Grooming – Small Dogs', 1199)">Book Now</button>
+      </div>
+      <div class="service-card">
+        <img src="images/bathblow.jpg" alt="Bath & Blow Dry">
+        <h3>Bath & Blow Dry</h3>
+        <p class="desc">Deep cleansing bath with premium shampoo, conditioner & full blow dry.</p>
+        <p class="price">₹599 <s>₹999</s> (40% OFF)</p>
+        <button onclick="addToCart('Bath & Blow Dry', 599)">Book Now</button>
+      </div>
+      <div class="service-card">
+        <img src="images/haircuts.jpg" alt="Haircut & Styling">
+        <h3>Haircut & Styling</h3>
+        <p class="desc">Breed-specific or custom cut, scissoring, clipper work – fresh look guaranteed.</p>
+        <p class="price">₹899 <s>₹1,499</s> (40% OFF)</p>
+        <button onclick="addToCart('Haircut & Styling', 899)">Book Now</button>
+      </div>
+      <div class="service-card">
+        <img src="images/nail.jpg" alt="Nail Trim & Paw Care">
+        <h3>Nail Trim & Paw Care</h3>
+        <p class="desc">Safe nail clipping, paw pad cleaning, balm application – quick & stress-free.</p>
+        <p class="price">₹349 <s>₹599</s> (42% OFF)</p>
+        <button onclick="addToCart('Nail Trim & Paw Care', 349)">Book Now</button>
+      </div>
+      <div class="service-card">
+        <img src="images/ear.jpg" alt="Ear Cleaning & Plucking">
+        <h3>Ear Cleaning & Plucking</h3>
+        <p class="desc">Gentle ear cleaning, hair plucking & odor control – prevents infections.</p>
+        <p class="price">₹399 <s>₹699</s> (43% OFF)</p>
+        <button onclick="addToCart('Ear Cleaning & Plucking', 399)">Book Now</button>
+      </div>
+      <div class="service-card">
+        <img src="images/large.jpg" alt="Full Grooming – Large Dogs">
+        <h3>Full Grooming – Large Dogs</h3>
+        <p class="desc">Bath, haircut, deshedding, nail trim – Labradors, Golden Retrievers, etc.</p>
+        <p class="price">₹1,799 <s>₹3,499</s> (49% OFF)</p>
+        <button onclick="addToCart('Full Grooming – Large Dogs', 1799)">Book Now</button>
+      </div>
+      <div class="service-card">
+        <img src="images/catgroom.jpg" alt="Cat Grooming (Bath + Brush)">
+        <h3>Cat Grooming (Bath + Brush)</h3>
+        <p class="desc">Gentle bath (if needed), mat removal, brushing & nail trim – stress-free for cats.</p>
+        <p class="price">₹899 <s>₹1,599</s> (44% OFF)</p>
+        <button onclick="addToCart('Cat Grooming (Bath + Brush)', 899)">Book Now</button>
+      </div>
+      <div class="service-card">
+        <img src="images/express.jpg" alt="Express Grooming (30–45 min)">
+        <h3>Express Grooming (30–45 min)</h3>
+        <p class="desc">Quick bath, brush, nail trim – perfect for busy pet parents.</p>
+        <p class="price">₹699 <s>₹1,199</s> (42% OFF)</p>
+        <button onclick="addToCart('Express Grooming (30–45 min)', 699)">Book Now</button>
+      </div>
+    </div>
+    <p class="back-link">
+      <a href="single.html?v=5" id="back-home">← Back to PawHub Home</a>
+    </p>
+  </div>
+
+  <script>
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem('pawhubCart')) || [];
+      let existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.quantity = (existing.quantity || 1) + 1;
+      } else {
+        cart.push({ name: name, price: parseInt(price), quantity: 1 });
+      }
+      localStorage.setItem('pawhubCart', JSON.stringify(cart));
+      alert(`Booked: ${name} (₹${price}) added to cart!`);
+    }
+
+    document.getElementById('back-home').addEventListener('click', function(e) {
+      e.preventDefault();
+      const timestamp = new Date().getTime();
+      window.location.href = 'single.html?v=' + timestamp;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Products - PawHub</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f3eee8;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 { color: #f47c20; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .deal-banner {
+      background: #f47c20;
+      color: white;
+      padding: 40px 20px;
+      border-radius: 20px;
+      margin: 30px 0;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+    .deal-banner h2 { margin: 0; font-size: 36px; }
+    .deal-banner p { font-size: 20px; margin: 15px 0; }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    .product-card {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+    .product-card:hover { transform: translateY(-10px); }
+    .product-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: contain;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      background: #f9f9f9;
+    }
+    .product-card h3 { margin: 10px 0; color: #1e3a5f; font-size: 22px; }
+    .product-card p.desc { font-size: 16px; color: #555; margin: 10px 0; }
+    .product-card p.price { font-size: 18px; font-weight: bold; color: #f47c20; margin: 5px 0; }
+    .product-card button {
+      background: #f47c20;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.2s;
+    }
+    .product-card button:hover { background: #d96b1a; }
+    .back-link {
+      margin-top: 50px;
+      font-size: 18px;
+    }
+    .back-link a {
+      color: #f47c20;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Food Products at PawHub</h1>
+   
+    <div class="deal-banner">
+      <h2>UP TO 60% OFF + EXTRA 10% OFF!</h2>
+      <p>Give Your Pets the Best Nutrition with Premium Food, Treats, Wet Food, Kibble & Supplements!</p>
+      <p>Top brands available – healthy meals start here!</p>
+    </div>
+    <div class="products">
+      <!-- 1. Dry Kibble for Dogs -->
+      <div class="product-card">
+        <img src="images/dry.jpg" alt="Bag of premium dry dog kibble">
+        <h3>Dry Kibble for Dogs</h3>
+        <p class="desc">High-protein, grain-free kibble for all breeds – complete daily nutrition.</p>
+        <p class="price">₹799 <s>₹1599</s> (50% OFF)</p>
+        <button onclick="addToCart('Dry Kibble for Dogs', 799)">Add to Cart</button>
+      </div>
+      <!-- 2. Wet Food Pouches -->
+      <div class="product-card">
+        <img src="images/wet.jpg" alt="Wet pet food pouches in gravy">
+        <h3>Wet Food Pouches</h3>
+        <p class="desc">Tasty chunks in gravy – perfect for picky eaters and hydration.</p>
+        <p class="price">₹89 <s>₹149</s> (40% OFF) each</p>
+        <button onclick="addToCart('Wet Food Pouches', 89)">Add to Cart</button>
+      </div>
+      <!-- 3. Dental Treats -->
+      <div class="product-card">
+        <img src="images/dental.jpg" alt="Dental chew treats for dogs">
+        <h3>Dental Treats</h3>
+        <p class="desc">Tartar control chews that clean teeth while rewarding your pet.</p>
+        <p class="price">₹349 <s>₹699</s> (50% OFF)</p>
+        <button onclick="addToCart('Dental Treats', 349)">Add to Cart</button>
+      </div>
+      <!-- 4. Cat Dry Food -->
+      <div class="product-card">
+        <img src="images/dry.jpg" alt="Premium cat dry kibble bag">
+        <h3>Cat Dry Food</h3>
+        <p class="desc">Taurine-rich kibble for healthy coat, eyes and urinary health.</p>
+        <p class="price">₹649 <s>₹1299</s> (50% OFF)</p>
+        <button onclick="addToCart('Cat Dry Food', 649)">Add to Cart</button>
+      </div>
+      <!-- 5. Training Treats -->
+      <div class="product-card">
+        <img src="images/training.jpg" alt="Small training reward treats for dogs">
+        <h3>Training Treats</h3>
+        <p class="desc">Small, soft, low-calorie bites – ideal for training and rewards.</p>
+        <p class="price">₹249 <s>₹499</s> (50% OFF)</p>
+        <button onclick="addToCart('Training Treats', 249)">Add to Cart</button>
+      </div>
+      <!-- 6. Grain-Free Kibble -->
+      <div class="product-card">
+        <img src="images/gain.jpg" alt="Grain-free dry pet food kibble">
+        <h3>Grain-Free Kibble</h3>
+        <p class="desc">Potato & pea-based, high meat content – great for sensitive stomachs.</p>
+        <p class="price">₹999 <s>₹1999</s> (50% OFF)</p>
+        <button onclick="addToCart('Grain-Free Kibble', 999)">Add to Cart</button>
+      </div>
+      <!-- 7. Cat Wet Cans -->
+      <div class="product-card">
+        <img src="images/wetcan.jpg" alt="Premium cat wet food cans">
+        <h3>Cat Wet Cans</h3>
+        <p class="desc">Flaked fish & meat in jelly – moisture-rich for urinary health.</p>
+        <p class="price">₹99 <s>₹169</s> (42% OFF) each</p>
+        <button onclick="addToCart('Cat Wet Cans', 99)">Add to Cart</button>
+      </div>
+      <!-- 8. Joint Supplement Treats -->
+      <div class="product-card">
+        <img src="images/supplement.jpg" alt="Joint health supplement chews for pets">
+        <h3>Joint Supplement Treats</h3>
+        <p class="desc">Glucosamine & chondroitin chews – supports mobility in older pets.</p>
+        <p class="price">₹499 <s>₹999</s> (50% OFF)</p>
+        <button onclick="addToCart('Joint Supplement Treats', 499)">Add to Cart</button>
+      </div>
+      <!-- 9. Puppy/Kitten Starter Food -->
+      <div class="product-card">
+        <img src="images/starter.jpg" alt="Puppy and kitten starter dry food bag">
+        <h3>Puppy/Kitten Starter Food</h3>
+        <p class="desc">High-calorie, DHA-rich formula for growth and brain development.</p>
+        <p class="price">₹699 <s>₹1399</s> (50% OFF)</p>
+        <button onclick="addToCart('Puppy/Kitten Starter Food', 699)">Add to Cart</button>
+      </div>
+    </div>
+
+    <p class="back-link">
+      <a href="single.html?v=4" id="back-home">← Back to PawHub Home</a>
+    </p>
+  </div>
+
+  <script>
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem('pawhubCart')) || [];
+      let existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.quantity = (existing.quantity || 1) + 1;
+      } else {
+        cart.push({ name: name, price: parseInt(price), quantity: 1 });
+      }
+      localStorage.setItem('pawhubCart', JSON.stringify(cart));
+      alert(`Added ${name} (₹${price}) to cart!`);
+    }
+
+    document.getElementById('back-home').addEventListener('click', function(e) {
+      e.preventDefault();
+      const timestamp = new Date().getTime();
+      window.location.href = 'single.html?v=' + timestamp;
+    });
+  </script>
+</body>
+</html>
