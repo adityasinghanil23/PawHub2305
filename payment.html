@@ -137,7 +137,7 @@
     <div class="form-section" id="card-form">
       <div class="form-group">
         <label for="cardNumber">Card Number</label>
-        <input type="text" id="cardNumber" placeholder="4111 1111 1111 1111" maxlength="19" required>
+        <input type="text" id="cardNumber" placeholder="4111 1111 1111 1111" maxlength="16" minlength="16" required>
       </div>
       <div class="form-group">
         <label for="expiry">Expiry (MM/YY)</label>
@@ -145,7 +145,7 @@
       </div>
       <div class="form-group">
         <label for="cvv">CVV</label>
-        <input type="text" id="cvv" placeholder="123" maxlength="4" required>
+        <input type="text" id="cvv" placeholder="123" maxlength="3" required>
       </div>
       <button class="pay-btn" onclick="processPayment('Card')">Pay Now</button>
     </div>
@@ -204,7 +204,7 @@
         if (success) {
           alert(`Payment Successful via ${method}!\nAmount: ₹${amount.toFixed(2)}\nThank you for shopping at PawHub! 🐾`);
           localStorage.removeItem('pawhubCart');
-          window.location.href = "single.html";
+          window.location.href = "index.html";
         } else {
           alert(`Payment Failed via ${method}.\nPlease try again or use another method.`);
         }
