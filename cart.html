@@ -34,7 +34,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
     th, td {
       padding: 14px;
@@ -50,18 +50,68 @@
       font-weight: bold;
     }
     .total-row {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: bold;
       background: #fff8f0;
+      padding: 18px;
+      text-align: right;
+      border-radius: 8px;
+      margin-bottom: 20px;
     }
-    .remove-btn {
-      background: #ff4444;
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
+
+    /* Payment Options */
+    .payment-section {
+      margin: 30px 0;
+      padding: 25px;
+      background: #f8f8f8;
+      border-radius: 12px;
+      border: 2px solid #eee;
+    }
+    .payment-title {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #1e3a5f;
+    }
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .payment-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 10px;
       cursor: pointer;
+      transition: all 0.3s;
     }
+    .payment-option:hover {
+      border-color: #f47c20;
+    }
+    .payment-option.selected {
+      border-color: #28a745;
+      background: #f0fdf4;
+    }
+    .payment-option input[type="radio"] {
+      accent-color: #28a745;
+      transform: scale(1.3);
+    }
+    .option-label {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .cod-badge {
+      background: #28a745;
+      color: white;
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-left: auto;
+    }
+
     .actions {
       margin-top: 30px;
       text-align: center;
@@ -82,34 +132,50 @@
     .btn.checkout {
       background: #28a745;
       font-size: 18px;
-      padding: 16px 40px;
+      padding: 16px 50px;
     }
-    .btn.checkout:hover {
-      background: #218838;
+    .btn.checkout:disabled {
+      background: #aaa;
+      cursor: not-allowed;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Your Cart</h1>
-
     <div id="cart-content"></div>
-
     <div id="cart-total" class="total-row"></div>
+
+    <!-- Payment Options Section -->
+    <div class="payment-section" id="payment-section" style="display: none;">
+      <div class="payment-title">Select Payment Method</div>
+      <div class="payment-options">
+        <label class="payment-option" id="cod-option">
+          <input type="radio" name="payment" value="cod" checked>
+          <span class="option-label">Cash on Delivery (COD)</span>
+          <span class="cod-badge">Recommended</span>
+        </label>
+        
+        <!-- You can add more options later like UPI, Card, etc. -->
+      </div>
+    </div>
 
     <div class="actions">
       <button class="btn" onclick="window.location.href='index.html'">Continue Shopping</button>
       <button class="btn clear" onclick="clearCart()">Clear Cart</button>
-      <button class="btn checkout" id="checkoutBtn" style="display:none;" onclick="goToPayment()">Proceed to Checkout</button>
+      <button class="btn checkout" id="checkoutBtn" onclick="proceedToCheckout()">Proceed to Checkout</button>
     </div>
   </div>
 
   <script>
+    let selectedPayment = "cod";
+
     function renderCart() {
       const cart = JSON.parse(localStorage.getItem('pawhubCart')) || [];
       const content = document.getElementById('cart-content');
       const totalDiv = document.getElementById('cart-total');
       const checkoutBtn = document.getElementById('checkoutBtn');
+      const paymentSection = document.getElementById('payment-section');
 
       content.innerHTML = '';
 
@@ -117,11 +183,11 @@
         content.innerHTML = '<p class="empty">Your cart is empty.<br>Add some toys, food or grooming services!</p>';
         totalDiv.style.display = 'none';
         checkoutBtn.style.display = 'none';
+        paymentSection.style.display = 'none';
         return;
       }
 
       let grandTotal = 0;
-
       let table = `
         <table>
           <thead>
@@ -145,23 +211,21 @@
         table += `
           <tr>
             <td>${item.name}</td>
-            <td class="price">${price}</td>
+            <td class="price">₹${price}</td>
             <td>${qty}</td>
-            <td class="subtotal">${subtotal}</td>
+            <td class="subtotal">₹${subtotal}</td>
             <td><button class="remove-btn" onclick="removeItem(${index})">Remove</button></td>
           </tr>
         `;
       });
 
-      table += `
-          </tbody>
-        </table>
-      `;
-
+      table += `</tbody></table>`;
       content.innerHTML = table;
+
       totalDiv.textContent = `Grand Total: ₹${grandTotal}`;
       totalDiv.style.display = 'block';
-      checkoutBtn.style.display = 'inline-block'; // Show checkout button
+      checkoutBtn.style.display = 'inline-block';
+      paymentSection.style.display = 'block';
     }
 
     function removeItem(index) {
@@ -178,11 +242,40 @@
       }
     }
 
-    function goToPayment() {
-      window.location.href = 'payment.html';
+    // New function for COD checkout
+    function proceedToCheckout() {
+      const cart = JSON.parse(localStorage.getItem('pawhubCart')) || [];
+      if (cart.length === 0) return;
+
+      // You can expand this later to support UPI/Card too
+      if (selectedPayment === "cod") {
+        alert("🎉 Order placed successfully with Cash on Delivery!\n\nYour order will be delivered soon.\nThank you for shopping at PawHub! 🐾");
+        
+        // Clear cart after successful order
+        localStorage.removeItem('pawhubCart');
+        
+        // Optional: redirect to order confirmation page
+        setTimeout(() => {
+          window.location.href = 'order-confirmation.html'; // create this page later
+        }, 800);
+      }
     }
 
-    window.onload = renderCart;
+    // Make COD option clickable
+    document.addEventListener('DOMContentLoaded', () => {
+      const codOption = document.getElementById('cod-option');
+      codOption.addEventListener('click', () => {
+        document.querySelectorAll('.payment-option').forEach(opt => {
+          opt.classList.remove('selected');
+        });
+        codOption.classList.add('selected');
+        selectedPayment = "cod";
+      });
+
+      // Select COD by default
+      codOption.classList.add('selected');
+      renderCart();
+    });
   </script>
 </body>
 </html>
