@@ -111,7 +111,6 @@
       border-radius: 20px;
       margin-left: auto;
     }
-
     .actions {
       margin-top: 30px;
       text-align: center;
@@ -150,13 +149,26 @@
     <div class="payment-section" id="payment-section" style="display: none;">
       <div class="payment-title">Select Payment Method</div>
       <div class="payment-options">
+        
+        <!-- Cash on Delivery -->
         <label class="payment-option" id="cod-option">
           <input type="radio" name="payment" value="cod" checked>
           <span class="option-label">Cash on Delivery (COD)</span>
           <span class="cod-badge">Recommended</span>
         </label>
-        
-        <!-- You can add more options later like UPI, Card, etc. -->
+
+        <!-- UPI -->
+        <label class="payment-option" id="upi-option">
+          <input type="radio" name="payment" value="upi">
+          <span class="option-label">UPI Payment (PhonePe, Google Pay, Paytm)</span>
+        </label>
+
+        <!-- Credit/Debit Card -->
+        <label class="payment-option" id="card-option">
+          <input type="radio" name="payment" value="card">
+          <span class="option-label">Credit or Debit Card</span>
+        </label>
+
       </div>
     </div>
 
@@ -242,38 +254,58 @@
       }
     }
 
-    // New function for COD checkout
     function proceedToCheckout() {
       const cart = JSON.parse(localStorage.getItem('pawhubCart')) || [];
       if (cart.length === 0) return;
 
-      // You can expand this later to support UPI/Card too
+      let message = "🎉 Order placed successfully!\n\n";
+
       if (selectedPayment === "cod") {
-        alert("🎉 Order placed successfully with Cash on Delivery!\n\nYour order will be delivered soon.\nThank you for shopping at PawHub! 🐾");
-        
-        // Clear cart after successful order
-        localStorage.removeItem('pawhubCart');
-        
-        // Optional: redirect to order confirmation page
-        setTimeout(() => {
-          window.location.href = 'order-confirmation.html'; // create this page later
-        }, 800);
+        message += "Payment Method: Cash on Delivery (COD)\nYour order will be delivered soon.";
+      } else if (selectedPayment === "upi") {
+        message += "Payment Method: UPI\nPlease complete the payment using the UPI link sent to your phone.";
+      } else if (selectedPayment === "card") {
+        message += "Payment Method: Credit/Debit Card\nYou will be redirected to the secure payment gateway.";
       }
+
+      message += "\n\nThank you for shopping at PawHub! 🐾";
+
+      alert(message);
+
+      // Clear cart after order
+      localStorage.removeItem('pawhubCart');
+
+      // Redirect to confirmation page
+      setTimeout(() => {
+        window.location.href = 'order-confirmation.html';
+      }, 800);
     }
 
-    // Make COD option clickable
+    // Handle payment option selection
     document.addEventListener('DOMContentLoaded', () => {
-      const codOption = document.getElementById('cod-option');
-      codOption.addEventListener('click', () => {
-        document.querySelectorAll('.payment-option').forEach(opt => {
-          opt.classList.remove('selected');
+      const options = {
+        cod: document.getElementById('cod-option'),
+        upi: document.getElementById('upi-option'),
+        card: document.getElementById('card-option')
+      };
+
+      // Click handler for all options
+      Object.keys(options).forEach(key => {
+        options[key].addEventListener('click', () => {
+          // Remove selected class from all
+          document.querySelectorAll('.payment-option').forEach(opt => {
+            opt.classList.remove('selected');
+          });
+          // Add selected class to clicked one
+          options[key].classList.add('selected');
+          selectedPayment = key;
         });
-        codOption.classList.add('selected');
-        selectedPayment = "cod";
       });
 
-      // Select COD by default
-      codOption.classList.add('selected');
+      // Set COD as default selected
+      options.cod.classList.add('selected');
+      selectedPayment = "cod";
+
       renderCart();
     });
   </script>
